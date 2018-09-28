@@ -32,6 +32,28 @@ void Vblank() {
 	frame++;
 }
 
+void printOptions(int sel, bool clear){
+	// does the screen need to be cleared?
+	if (clear){
+		// clear it
+		iprintf("\x1b[2J");
+	}
+	// print the text at the top
+	iprintf("JonDump GBA mode select\n");
+	// print certain strings based on what option is selected
+	switch (sel){
+		case 1:
+			iprintf("Mode: 1\n");
+			iprintf("Dump GBA save to DS card\n");
+			break;
+		case default:
+			iprintf("error: invalid mode selected!\n");
+			break;
+	}
+	// finally, print the text at the bottom
+	iprintf("Use Dpad to pick, a to confirm\n");
+}
+
 
 // mode gba code borrowed from dssavemanager
 // and modifyed to work for what i need
@@ -43,10 +65,19 @@ void mode_gba()
 	u8 gbatype = gbaGetSaveType();
 
 	int selection = 1;
+	// exit flag for while loop
+	int whileexit = 0;
 	// clear the screen
-	//iprintf("\x1b[2J");
+	
+	// print basic menu thing
+	printOptions(selection, true);
+	
 	swiWaitForVBlank();
+	
+	while (whileexit == 0){
 		
+		
+	}
 	if (selection == 1) {
 		// backup mode
 		iprintf("preparing to dump save...\n");
