@@ -121,11 +121,6 @@ int main(void) {
 	writeGBAtoDS(data);
 	iprintf("Press START to shutdown...\n");
 	
-	// BUT WAIT!
-	// convert this thing first
-	//unsigned short buffer[(2 * sizeof(int)) / sizeof(unsigned short)];
-	//memcpy(buffer, data, gbaGetSaveSize(gbaGetSaveType()));
-	
  
 	while(1) {
 	
