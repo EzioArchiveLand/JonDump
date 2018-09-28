@@ -93,11 +93,20 @@ void mode_gba()
 			selection++;
 			updatescreen = 1;
 		}
+		if (keys && KEY_LEFT){
+			// subtract 1
+			selection--;
+			updatescreen = 1;
+		}
 		// first we want to see if selection is 4
 		// so then we can wrap it around to 1
 		if (selection > 3){
 			// if yes, make it 1 so the logic doesnt explode
 			selection = 1;	
+		}
+		// also check if less then 1
+		if (selection < 1){
+			selection = 3;
 		}
 		// next, update the screen
 		if (updatescreen == 1){
