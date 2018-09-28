@@ -44,7 +44,7 @@ void mode_gba()
 
 	int selection = 1;
 	// clear the screen
-	iprintf("\x1b[2J");
+	//iprintf("\x1b[2J");
 	swiWaitForVBlank();
 		
 	if (selection == 1) {
@@ -58,6 +58,12 @@ void mode_gba()
 		} else {
 			// i guess everything is okay now
 			gooddump = 1;
+		}
+		if (gooddump == 1){
+			// if its a good dump, or atleast i hope it is, write the save to nintendo ds game card
+			// Delete the save file from the cartridge
+			iprintf("Writing GBA Save to DS game...\n");
+			writeGBAtoDS(data);
 		}
 		}
 		
@@ -116,9 +122,6 @@ int main(void) {
 			iprintf("Error: no hardware found!\n");
 			break;
 	}
-	// Delete the save file from the cartridge
-	iprintf("Writing GBA Save to DS game...\n");
-	writeGBAtoDS(data);
 	iprintf("Press START to shutdown...\n");
 	
  
