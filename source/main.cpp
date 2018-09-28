@@ -25,10 +25,6 @@ volatile int frame = 0;
 // use this later
 int gooddump = 0;
 
-// shit stolen from ds game maker
-char DSGM_buffer[4096];
-size_t DSGM_wirelessDataLength = 0;
-bool DSGM_newWirelessData = false;
 
 //---------------------------------------------------------------------------------
 void Vblank() {
@@ -36,25 +32,6 @@ void Vblank() {
 	frame++;
 }
 
-// dswifi shit
-inline void setWirelessMode(enum WIRELESS_MODE mode) {
-  if(mode == WIRELESS_MODE_WIFI || mode == WIRELESS_MODE_NIFI) wirelessMode = mode;
-}
-
-// shit stolen from ds game maker
-// apparently handles wireless shit
-void DSGM_WirelessHandler(int packetID, int readlength) {
-	Wifi_RxRawReadPacket(packetID, readlength, (unsigned short *)DSGM_buffer);
-	
-	DSGM_wirelessDataLength = readlength - 32;
-	DSGM_newWirelessData = true;
-}
-
-// more shit from dsgame maker
-// this time, you use it for sending shit
-void DSGM_SendWirelessData(unsigned short *buffer, int length) {
-	if(Wifi_RawTxFrame(length, 0x0014, buffer) != 0) iprintf("SEND ERROR\n");
-}
 
 // mode gba code borrowed from dssavemanager
 // and modifyed to work for what i need
@@ -129,7 +106,6 @@ int main(void) {
 		size_buf >>= 1;
 		data = (u8*)malloc(size_buf);
 	}
-	iprintf("MEM FREE: %x\n", size_buf);
 	// find out what hardware we have to work with
 	switch (mode) {
 		case 1:
@@ -140,20 +116,6 @@ int main(void) {
 			iprintf("Error: no hardware found!\n");
 			break;
 	}
-	// unfished feature: nifi sending to a dsi to save
-	// i couldnt get the dsi to write to sd,so this idea got cut
-	// init nifi from DS game maker
-	/*iprintf("INIT NIFI...\n");
-	// code stolen from DSGM_Wireless.c
-	setWirelessMode(WIRELESS_MODE_NIFI);
-	Wifi_InitDefault(false);
-	Wifi_SetPromiscuousMode(1);
-	Wifi_EnableWifi();
-	Wifi_RawSetPacketHandler(DSGM_WirelessHandler);
-	Wifi_SetChannel(10);
-	iprintf("NIFI INIT DONE\n");
-	// if theres nothing, do nothing, obviously
-	iprintf("Now entering NIFI send loop\n");*/
 	// Delete the save file from the cartridge
 	iprintf("Writing GBA Save to DS game...\n");
 	writeGBAtoDS(data);
@@ -171,12 +133,9 @@ int main(void) {
 		scanKeys();
 		int keys = keysDown();
 		if (keys & KEY_START) break;
-		// send data over nifi?
-		//DSGM_SendWirelessData(buffer, gbaGetSaveSize(gbaGetSaveType()));
 
 
-		// print at using ansi escape sequence \x1b[line;columnH 
-		//dont do anything rofl
+		// this is just a loop that shutsdown the ds if you press start.
 	}
 
 	return 0;
