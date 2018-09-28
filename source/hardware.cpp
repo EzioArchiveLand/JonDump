@@ -25,6 +25,12 @@ using namespace std;
 
 static u32 pitch = 0x40000;
 
+// Work in progress
+// GBA rom Dumper
+void DumpGBARom(){
+	// do something here
+}
+
 // some form of writer thingy
 void writeGBAtoDS(u8* whatthefuck) {
 	slot_1_type = auxspi_has_extra();

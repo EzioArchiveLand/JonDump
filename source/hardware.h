@@ -61,4 +61,6 @@ void hwRelease3in1(uint32 ime);
 
 void writeGBAtoDS(u8* whatthefuck);
 
+void DumpGBARom();
+
 #endif
