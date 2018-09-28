@@ -98,6 +98,11 @@ void mode_gba()
 			selection--;
 			updatescreen = 1;
 		}
+		// check if the user made a selection
+		if (keys && KEY_A){
+			// just leave the while loop
+			whileexit = 1;
+		}
 		// first we want to see if selection is 4
 		// so then we can wrap it around to 1
 		if (selection > 3){
@@ -138,15 +143,17 @@ void mode_gba()
 		}
 		}
 		
-		/*if (mode == Restore) {
-			// restore mode...unused
-			hwRestoreGBA();
-		}
+	if (selection == 2) {
+		// restore mode...unused
+		//hwRestoreGBA();
+		iprintf("UNIMPLIMENTED\n");
+	}
 		
-		if (mode == Erase) {
-			// erase mode, unused for now
-			hwEraseGBA();
-		}*/
+	if (selection == 3) {
+		// erase mode, unused for now
+		//hwEraseGBA();
+		iprintf("UNIMPLIMENTED MODE!\n");
+	}
 }
 
 // apparently we need this
