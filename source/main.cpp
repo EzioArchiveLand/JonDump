@@ -46,6 +46,14 @@ void printOptions(int sel, bool clear){
 			iprintf("Mode: 1\n");
 			iprintf("Dump GBA save to DS card\n");
 			break;
+		case 2:
+			iprintf("Mode: 2\n");
+			iprintf("Restore GBA save from DS card\n");
+			break;
+		case 3:
+			iprintf("Mode: 3\n");
+			iprintf("Dump GBA Rom to ds card\n(hotswapping mostlikely required)\n");
+			break;
 		case default:
 			iprintf("error: invalid mode selected!\n");
 			break;
@@ -67,6 +75,8 @@ void mode_gba()
 	int selection = 1;
 	// exit flag for while loop
 	int whileexit = 0;
+	// update var
+	int updatescreen = 0;
 	// clear the screen
 	
 	// print basic menu thing
@@ -75,6 +85,27 @@ void mode_gba()
 	swiWaitForVBlank();
 	
 	while (whileexit == 0){
+		// wait for input
+		swiWaitForVBlank();
+		scanKeys();
+		uint32 keys = keysDown();
+		if (keys && KEY_RIGHT){
+			selection++;
+			updatescreen = 1;
+		}
+		// first we want to see if selection is 4
+		// so then we can wrap it around to 1
+		if (selection > 3){
+			// if yes, make it 1 so the logic doesnt explode
+			selection = 1;	
+		}
+		// next, update the screen
+		if (updatescreen == 1){
+			// unset the update flag
+			updatescreen = 0;
+			// then, update the screen itself
+			printOptions(selection, true);
+		}
 		
 		
 	}
