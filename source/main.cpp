@@ -12,18 +12,12 @@
 #include <stdio.h>
 #include <sstream>
 
-// use a much slimmed down copy of DSGM.h
-// only really needed for NIFI support
-#include <DSGMLITE.h>
-
 // used borrowed code
 #include "gba.h"
 #include "globals.h"
 #include "hardware.h"
 #include "dsCard.h"
 
-// stolen ds game maker code
-#include "patch.h"
 
 
 volatile int frame = 0;
