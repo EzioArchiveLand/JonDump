@@ -54,7 +54,7 @@ void printOptions(int sel, bool clear){
 			iprintf("Mode: 3\n");
 			iprintf("Dump GBA Rom to ds card\n(hotswapping mostlikely required)\n");
 			break;
-		case default:
+		default:
 			iprintf("error: invalid mode selected!\n");
 			break;
 	}
