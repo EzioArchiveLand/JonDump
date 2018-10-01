@@ -89,17 +89,14 @@ void mode_gba()
 		swiWaitForVBlank();
 		scanKeys();
 		uint32 keys = keysDown();
-		if (keys && KEY_RIGHT){
+		if (keysHeld() & KEY_RIGHT){
 			selection++;
 			updatescreen = 1;
-		}
-		if (keys && KEY_LEFT){
+		}else if (keysHeld() & KEY_LEFT){
 			// subtract 1
 			selection--;
 			updatescreen = 1;
-		}
-		// check if the user made a selection
-		if (keys && KEY_A){
+		}else if (keysHeld() & KEY_A){
 			// just leave the while loop
 			whileexit = 1;
 		}
@@ -108,9 +105,7 @@ void mode_gba()
 		if (selection > 3){
 			// if yes, make it 1 so the logic doesnt explode
 			selection = 1;	
-		}
-		// also check if less then 1
-		if (selection < 1){
+		}else if (selection < 1){
 			selection = 3;
 		}
 		// next, update the screen
@@ -123,38 +118,41 @@ void mode_gba()
 		
 		
 	}
-	if (selection == 1) {
-		// backup mode
-		iprintf("preparing to dump save...\n");
-		hwBackupGBA(gbatype);
-		// check to make sure data has something in it
-		if (data == NULL){
-			iprintf("ERROR: DUMP FAILED!\n");
-			gooddump = 0;
-		} else {
-			// i guess everything is okay now
-			gooddump = 1;
-		}
-		if (gooddump == 1){
-			// if its a good dump, or atleast i hope it is, write the save to nintendo ds game card
-			// Delete the save file from the cartridge
-			iprintf("Writing GBA Save to DS game...\n");
-			writeGBAtoDS(data);
-		}
-		}
-		
-	if (selection == 2) {
-		// restore mode...unused
-		//hwRestoreGBA();
-		iprintf("UNIMPLIMENTED\n");
-	}
-		
-	if (selection == 3) {
-		// erase mode, unused for now
-		//hwEraseGBA();
-		//iprintf("UNIMPLIMENTED MODE!\n");
-		// call the rom dumper
-		DumpGBARom();
+	switch (selection){
+		case 1:
+			// backup mode
+			iprintf("preparing to dump save...\n");
+			hwBackupGBA(gbatype);
+			// check to make sure data has something in it
+			if (data == NULL){
+				iprintf("ERROR: DUMP FAILED!\n");
+				gooddump = 0;
+			} else {
+				// i guess everything is okay now
+				gooddump = 1;
+			}
+			if (gooddump == 1){
+				// if its a good dump, or atleast i hope it is, write the save to nintendo ds game card
+				// Delete the save file from the cartridge
+				iprintf("Writing GBA Save to DS game...\n");
+				writeGBAtoDS(data);
+			}
+			break;
+		case 2:
+			// restore mode...unused
+			//hwRestoreGBA();
+			iprintf("UNIMPLIMENTED\n");
+			break;
+		case 3:
+			// erase mode, unused for now
+			//hwEraseGBA();
+			//iprintf("UNIMPLIMENTED MODE!\n");
+			// call the rom dumper
+			DumpGBARom();
+			break;
+		default:
+			iprintf("how did you get here?\n");
+			break;
 	}
 }
 
