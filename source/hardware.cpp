@@ -33,6 +33,8 @@ void DumpGBARom(){
 	s32 size = getGameSize();
 	// set the intial address
 	u8 gbarom = 0x08000000;
+	
+	u8 add = 0x00;
 	// keep doing it until the game is no more
 	while (size >= 0){
 		// message that tells the user to epic switch
@@ -53,13 +55,13 @@ void DumpGBARom(){
 		iprintf("Reading 512kb...\n");
 		// then dump it, 512kb at a time baby!
 		// (void*)0x08000000
-		memcpy(data, (void*)gbarom, 1031168);
+		memcpy(data, (void*)(0x08000000 + add), 1031168);
 		// write the dumped rom data to the ds game card
 		iprintf("Writing 512kb...\n");
 		writeGBAtoDS(data);
 		size = size - 1031168;
 		// add a bunch of numbers to the offset
-		gbarom = gbarom + 1031168 + 1;
+		add = add + 0xFBC01;
 	}
 }
 
