@@ -35,6 +35,8 @@ void DumpGBARom(){
 	// then uhhh
 	u8 *edgy = (u8*)gbarom;
 	memcpy(data, (void*)0x08000000, 1031168);
+	// write it?
+	writeGBAtoDS(data);
 }
 
 // some form of writer thingy

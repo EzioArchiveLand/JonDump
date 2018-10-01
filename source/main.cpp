@@ -152,7 +152,9 @@ void mode_gba()
 	if (selection == 3) {
 		// erase mode, unused for now
 		//hwEraseGBA();
-		iprintf("UNIMPLIMENTED MODE!\n");
+		//iprintf("UNIMPLIMENTED MODE!\n");
+		// call the rom dumper
+		DumpGBARom();
 	}
 }
 
@@ -162,7 +164,6 @@ unsigned short toShort(unsigned char* bytes) {
                    (unsigned char)bytes[0]);
 }
 
-	
 //---------------------------------------------------------------------------------
 int main(void) {
 //---------------------------------------------------------------------------------
