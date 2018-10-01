@@ -34,7 +34,7 @@ void DumpGBARom(){
 	u8 gbarom = 0x08000000;
 	// then uhhh
 	u8 *edgy = (u8*)gbarom;
-	memcpy(data, *edgy, 1031168);
+	memcpy(data, (void*)0x08000000, 1031168);
 }
 
 // some form of writer thingy
