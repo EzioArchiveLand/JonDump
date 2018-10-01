@@ -59,7 +59,7 @@ void DumpGBARom(){
 		writeGBAtoDS(data);
 		size = size - 1031168;
 		// add a bunch of numbers to the offset
-		gbarom = gbarom + 1031168;
+		gbarom = gbarom + 1031168 + 1;
 	}
 }
 
