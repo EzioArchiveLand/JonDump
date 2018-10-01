@@ -30,6 +30,11 @@ static u32 pitch = 0x40000;
 void DumpGBARom(){
 	// get the size of the rom
 	s32 getGameSize();
+	// set the intial address
+	u8 gbarom = 0x08000000;
+	// then uhhh
+	u8 *edgy = (u8*)gbarom;
+	memcpy(data, *edgy, 1031168);
 }
 
 // some form of writer thingy
