@@ -28,15 +28,39 @@ static u32 pitch = 0x40000;
 // Work in progress
 // GBA rom Dumper
 void DumpGBARom(){
+	bool pressa = false;
 	// get the size of the rom
-	s32 getGameSize();
+	s32 size = getGameSize();
 	// set the intial address
 	u8 gbarom = 0x08000000;
-	// then uhhh
-	u8 *edgy = (u8*)gbarom;
-	memcpy(data, (void*)0x08000000, 1031168);
-	// write it?
-	writeGBAtoDS(data);
+	// keep doing it until the game is no more
+	while (size >= 0){
+		// message that tells the user to epic switch
+		iprintf("Please insert a DS gamecard\nThat can hold 512kb of save data\nand press A to dump\n");
+		iprintf("If you have already used a card\nplease dump its save on a Dsi or 3ds\nand reinsert it\n");
+		while (!pressa){
+			// wait a very very long time
+			swiWaitForVBlank();
+			scanKeys();
+			if (keysHeld() & KEY_A){
+				// break out of the loop
+				pressa = true;
+			}
+		}
+		// reset the flag
+		pressa = false;
+		// then get to dumping
+		iprintf("Reading 512kb...\n");
+		// then dump it, 512kb at a time baby!
+		// (void*)0x08000000
+		memcpy(data, (void*)gbarom, 1031168);
+		// write the dumped rom data to the ds game card
+		iprintf("Writing 512kb...\n");
+		writeGBAtoDS(data);
+		size = size - 1031168;
+		// add a bunch of numbers to the offset
+		gbarom = gbarom + 1031168;
+	}
 }
 
 // some form of writer thingy
