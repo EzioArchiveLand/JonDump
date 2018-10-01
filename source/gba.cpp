@@ -545,3 +545,28 @@ bool gbaFormatSave(u8 type)
 	}
 	return true;
 }
+
+// borrowed from FIX94 GBA link cable dumper
+// get the cart's rom size
+s32 getGameSize(void)
+{
+	if(*(vu32*)(0x08000004) != 0x51AEFF24)
+		return -1;
+	s32 i;
+	for(i = (1<<20); i < (1<<25); i<<=1)
+	{
+		vu16 *rompos = (vu16*)(0x08000000+i);
+		int j;
+		bool romend = true;
+		for(j = 0; j < 0x1000; j++)
+		{
+			if(rompos[j] != j)
+			{
+				romend = false;
+				break;
+			}
+		}
+		if(romend) break;
+	}
+	return i;
+}

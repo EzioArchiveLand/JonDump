@@ -46,5 +46,8 @@ bool gbaReadSave(u8 *dst, u32 src, u32 len, u8 type);
 bool gbaWriteSave(u32 dst, u8 *src, u32 len, u8 type);
 bool gbaFormatSave(u8 type);
 
+// new shit borrowed from fix94's GBA link cable dumper
+s32 getGameSize(void);
+
 
 #endif // __SLOT2_H__

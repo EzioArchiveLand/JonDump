@@ -28,7 +28,8 @@ static u32 pitch = 0x40000;
 // Work in progress
 // GBA rom Dumper
 void DumpGBARom(){
-	// do something here
+	// get the size of the rom
+	s32 getGameSize();
 }
 
 // some form of writer thingy
