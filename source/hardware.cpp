@@ -28,8 +28,25 @@ static u32 pitch = 0x40000;
 // DS save game loader
 // Loads gba save from ds card
 void loadDSSave(){
-	
-	
+	uint8 type = auxspi_save_type(slot_1_type);
+	u8 *uwat;
+	uwat = (u8*)malloc(size_buf);
+	// get save size of inserted gba game
+	uint32 size = gbaGetSaveSize(type);
+	iprintf("preparing to read save...\n");
+	int size_blocks = 1 << max(0, (int8(size) - 18)); // ... in units of 0x40000 bytes - that's 256 kB
+	if (size < 16){
+		size_blocks = 1;
+	} else {
+		size_blocks = 1 << (size - 16);
+	}
+	u32 LEN = min(1 << size, 1 << 16);
+	for (int i = 0; i < size_blocks; i++) {
+		auxspi_read_data(i << 8, data, LEN, type, slot_1_type);
+		*uwat = *uwat + *data;
+	}
+	// then just store everything into data again
+	*data = *uwat;
 }
 
 // Work in progress
@@ -188,7 +205,7 @@ void hwRestoreGBA()
 	
 	if ((type == 1) || (type == 2)) {
 		// This is not to be translated, it will be removed at some point.
-		displayMessageF(STR_STR, "I can't write this save type\nyet. Please use Rudolphs tool\ninstead.");
+		iprintf("I can't write this save type\nyet. Please use Rudolphs tool\ninstead.");
 		return;
 	}
 	
