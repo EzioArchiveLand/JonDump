@@ -47,6 +47,11 @@ void loadDSSave(){
 	}
 	// then just store everything into data again
 	*data = *uwat;
+	iprintf("Preparing to write...\n");
+	// and then restore the save to the gba cart
+	hwRestoreGBA();
+	iprintf("Done!\n");
+	// and thats all folks!
 }
 
 // Work in progress
