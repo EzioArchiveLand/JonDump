@@ -141,7 +141,8 @@ void mode_gba()
 		case 2:
 			// restore mode...unused
 			//hwRestoreGBA();
-			iprintf("UNIMPLIMENTED\n");
+			//iprintf("UNIMPLIMENTED\n");
+			loadDSSave();
 			break;
 		case 3:
 			// erase mode, unused for now
@@ -175,7 +176,7 @@ int main(void) {
 	iprintf("GBA Save Dumper\n");
 	iprintf("Verion 1.0\n");
 	iprintf("by EzioisAwesome56\n");
-	iprintf("With code from dssavemanager and dsgmwifi\n\n");
+	iprintf("With code from dssavemanager and others\n\n");
 	// start doing things
 	iprintf("INIT...\n");
 	// own the bus
