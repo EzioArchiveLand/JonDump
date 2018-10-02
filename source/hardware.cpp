@@ -60,12 +60,13 @@ void DumpGBARom(){
 	bool pressa = false;
 	// get the size of the rom
 	u32 size = getGameSize();
+	iprintf("Detected gane size:\n%i\n", size);
 	// set the intial address
 	u8 gbarom = 0x08000000;
 	
 	s32 add = 0x00000000;
 	// keep doing it until the game is no more
-	while (size >= 0){
+	while (size > 0){
 		// message that tells the user to epic switch
 		iprintf("Please insert a DS gamecard\nThat can hold 512kb of save data\nand press A to dump\n");
 		iprintf("If you have already used a card\nplease dump its save on a Dsi or 3ds\nand reinsert it\n");
@@ -86,6 +87,7 @@ void DumpGBARom(){
 		// (void*)0x08000000
 		// clear out data maybe?
 		data = 0;
+		iprintf("current offset: %X\n", 0x08000000 + add);
 		memcpy(data, (void*)(0x08000000 + add), 524288);
 		// write the dumped rom data to the ds game card
 		iprintf("Writing 512kb...\n");
