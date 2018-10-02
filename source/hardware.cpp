@@ -25,12 +25,19 @@ using namespace std;
 
 static u32 pitch = 0x40000;
 
+// DS save game loader
+// Loads gba save from ds card
+void loadDSSave(){
+	
+	
+}
+
 // Work in progress
 // GBA rom Dumper
 void DumpGBARom(){
 	bool pressa = false;
 	// get the size of the rom
-	s32 size = getGameSize();
+	u32 size = getGameSize();
 	// set the intial address
 	u8 gbarom = 0x08000000;
 	
@@ -55,6 +62,8 @@ void DumpGBARom(){
 		iprintf("Reading 512kb...\n");
 		// then dump it, 512kb at a time baby!
 		// (void*)0x08000000
+		// clear out data maybe?
+		data = 0;
 		memcpy(data, (void*)(0x08000000 + add), 524288);
 		// write the dumped rom data to the ds game card
 		iprintf("Writing 512kb...\n");
@@ -171,7 +180,7 @@ void hwBackupGBA(u8 type)
 }
 
 // we will be reusing the shit below at a later date.
-/*void hwRestoreGBA()
+void hwRestoreGBA()
 {
 	u8 type = gbaGetSaveType();
 	if ((type == 0) || (type > 5))
@@ -185,16 +194,17 @@ void hwBackupGBA(u8 type)
 	
 	uint32 size = gbaGetSaveSize(type);
 	
-	char path[256];
+	// we dont need this!
+	/*char path[256];
 	char fname[256] = "";
 	fileSelect("/", path, fname, 0);
 	char fullpath[512];
-	sprintf(fullpath, "%s/%s", path, fname);
+	sprintf(fullpath, "%s/%s", path, fname);*/
 
 	//displayStateF(STR_HW_READ_FILE, fname);
-	FILE *file = fopen(fullpath, "rb");
+	/*FILE *file = fopen(fullpath, "rb");
 	fread(data, 1, size, file);
-	fclose(file);
+	fclose(file);*/
 	
 	if ((type == 4) || (type == 5)) {
 		//displayStateF(STR_HW_FORMAT_GAME);
@@ -204,10 +214,11 @@ void hwBackupGBA(u8 type)
 	//displayStateF(STR_HW_WRITE_GAME);
 	gbaWriteSave(0, data, size, type);
 
-	displayStateF(STR_STR, "Done!");
+	// i dont like this line, so i commented it out
+	//displayStateF(STR_STR, "Done!");
 
 }
-
+/*
 void hwEraseGBA()
 {
 	u8 type = gbaGetSaveType();
